@@ -1,4 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: db/migration/create_db.sql
-      relativeToChangelogFile: false
