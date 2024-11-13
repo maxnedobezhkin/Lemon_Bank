@@ -27,4 +27,5 @@ public class AuthController {
         return authService.registerNewUser(userDto);
     }
 
+
 }

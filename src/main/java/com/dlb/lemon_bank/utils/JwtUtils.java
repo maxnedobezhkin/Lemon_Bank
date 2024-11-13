@@ -28,7 +28,13 @@ public class JwtUtils {
         return buildToken(new HashMap<>(), userId);
     }
 
+    public Integer extractUserId(String token) {
+        log.info("Extract user id from token {}", token);
+        return Integer.valueOf(extractClaim(token, Claims::getSubject));
+    }
+
     private String buildToken(Map<String, Object> extraClaims, Integer userId) {
+        log.info("Build new token");
         return Jwts.builder()
             .setClaims(extraClaims)
             .setSubject(userId.toString())
