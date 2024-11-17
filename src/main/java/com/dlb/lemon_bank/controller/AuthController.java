@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
-//@CrossOrigin(origins = "http://bankoflemons.ru:5173")
+@CrossOrigin(origins = "http://bankoflemons.ru:5173")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
