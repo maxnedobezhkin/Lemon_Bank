@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+//@Lazy
 public class CustomUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
 
