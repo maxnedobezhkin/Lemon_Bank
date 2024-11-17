@@ -6,6 +6,7 @@ import com.dlb.lemon_bank.domain.dto.UserDto;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import com.dlb.lemon_bank.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://bankoflemons.ru:5173")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
