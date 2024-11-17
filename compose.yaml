@@ -1,12 +1,26 @@
 version: '3'
 services:
-  postgres:
+  lemon_bank_app:
+    depends_on:
+      - lemon_db_postgres
+    build:
+      context: .
+    ports:
+      - '8080:8080'
+  lemon_db_postgres:
     restart: on-failure
     image: postgres
-    container_name: postgres1
+    container_name: lemon_db_postgres
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+    volumes:
+      - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: lemon_bank_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres1
     ports:
       - '5433:5432'
+
+volumes:
+  db_data:
