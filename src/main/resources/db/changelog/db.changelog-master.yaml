@@ -2,3 +2,9 @@ databaseChangeLog:
   - include:
       file: db/migration/create_db.sql
       relativeToChangelogFile: false
+  - include:
+      file: db/migration/change_users_table.sql
+      relativeToChangelogFile: false
+  - include:
+      file: db/migration/add-users.yaml
+      relativeToChangelogFile: false

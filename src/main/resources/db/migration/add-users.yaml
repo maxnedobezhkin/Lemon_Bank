@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert_users
+      author: Nedobezhkin.M.I.
+      changes:
+        - loadUpdateData:
+            columns:
+              - column:
+                  header: first_name
+                  name: first_name
+              - column:
+                  header: last_name
+                  name: last_name
+              - column:
+                  header: email
+                  name: email
+              - column:
+                  header: job_title
+                  name: job_title
+            tableName: users
+            encoding: UTF-8
+            separator: ','
+            quotchar: '"'
+            primaryKey: id
+            file: db/migration/csv/users.csv
+

@@ -19,8 +19,10 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "fullname")
-    private String fullname;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
@@ -31,5 +33,7 @@ public class UserEntity {
     private Integer diamonds;
     @Column(name = "user_role")
     private String userRole;
+    @Column(name = "job_title")
+    private String jobTitle;
 
 }
