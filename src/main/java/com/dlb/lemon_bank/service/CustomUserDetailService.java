@@ -2,6 +2,8 @@ package com.dlb.lemon_bank.service;
 
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import com.dlb.lemon_bank.domain.repository.UserRepository;
+import com.dlb.lemon_bank.handler.ErrorType;
+import com.dlb.lemon_bank.handler.exception.LemonBankException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -29,7 +31,7 @@ public class CustomUserDetailService implements UserDetailsService {
                 .build();
         }
         else {
-            throw new UsernameNotFoundException(username);
+            throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
     }
 }

@@ -64,16 +64,17 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    //TODO Исправить эту хуйню
     private void getErrorMessage(HttpServletResponse response)
         throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().println(
-            Jackson2ObjectMapperBuilder.json()
-                .modules(new JavaTimeModule())
-                .build()
-                .writeValueAsString("UNAUTHORIZED")
-        );
+//        response.getWriter().println(
+//            Jackson2ObjectMapperBuilder.json()
+//                .modules(new JavaTimeModule())
+//                .build()
+//                .writeValueAsString("UNAUTHORIZED")
+//        );
     }
 }
