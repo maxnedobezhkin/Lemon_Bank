@@ -107,6 +107,17 @@
 			<artifactId>liquibase-core</artifactId>
 			<version>4.24.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.5.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>1.5.5.Final</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -123,6 +134,22 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-compiler-plugin</artifactId>-->
+<!--				<version>3.13.0</version>-->
+<!--				<configuration>-->
+<!--					<source>1.8</source>-->
+<!--					<target>1.8</target>-->
+<!--					<annotationProcessorPaths>-->
+<!--						<path>-->
+<!--							<groupId>org.mapstruct</groupId>-->
+<!--							<artifactId>mapstruct-processor</artifactId>-->
+<!--							<version>1.5.5.Final</version>-->
+<!--						</path>-->
+<!--					</annotationProcessorPaths>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 

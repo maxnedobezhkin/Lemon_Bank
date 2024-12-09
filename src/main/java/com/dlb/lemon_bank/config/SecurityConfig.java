@@ -36,6 +36,7 @@ public class SecurityConfig {
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/login").anonymous()
+                .requestMatchers("/api/v1/employers/open-by-email/*").permitAll()
                 .anyRequest().hasAuthority("ADMIN"))
             .exceptionHandling(exc -> exc
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

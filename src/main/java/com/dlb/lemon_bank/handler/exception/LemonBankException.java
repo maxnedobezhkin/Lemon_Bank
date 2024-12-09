@@ -10,7 +10,7 @@ public class LemonBankException extends RuntimeException{
         this.errorType = errorType;
     }
     public LemonBankException(ErrorType errorType) {
-        super(ErrorType.USER_NOT_FOUND.getMessage());
+        super(errorType.getMessage());
         this.errorType = errorType;
     }
 

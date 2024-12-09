@@ -70,11 +70,11 @@ public class JwtFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-//        response.getWriter().println(
-//            Jackson2ObjectMapperBuilder.json()
-//                .modules(new JavaTimeModule())
-//                .build()
-//                .writeValueAsString("UNAUTHORIZED")
-//        );
+        response.getWriter().println(
+            Jackson2ObjectMapperBuilder.json()
+                .modules(new JavaTimeModule())
+                .build()
+                .writeValueAsString("UNAUTHORIZED")
+        );
     }
 }

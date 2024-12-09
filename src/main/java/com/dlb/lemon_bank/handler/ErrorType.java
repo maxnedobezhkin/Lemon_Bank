@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum ErrorType {
-    USER_NOT_FOUND("User not found", HttpStatus.UNAUTHORIZED);
+    UNAUTHORIZED("Unauthorized", HttpStatus.UNAUTHORIZED),
+    USER_NOT_FOUND("User not found", HttpStatus.BAD_REQUEST);
 
     public final String message;
     public final HttpStatus status;
