@@ -2,7 +2,7 @@ package com.dlb.lemon_bank.service;
 
 import com.dlb.lemon_bank.domain.dto.JwtRequestDto;
 import com.dlb.lemon_bank.domain.dto.JwtResponseDto;
-import com.dlb.lemon_bank.domain.dto.UserRequestDto;
+import com.dlb.lemon_bank.domain.dto.AdminRegisterDto;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import com.dlb.lemon_bank.domain.repository.UserRepository;
 import com.dlb.lemon_bank.handler.ErrorType;
@@ -21,10 +21,10 @@ public class AuthService {
     private final JwtUtils jwtUtils;
 
     @Transactional
-    public UserEntity registerNewUser(UserRequestDto userRequestDto) {
+    public UserEntity registerNewUser(AdminRegisterDto adminRegisterDto) {
         UserEntity newUser = new UserEntity();
-        newUser.setEmail(userRequestDto.getEmail());
-        newUser.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        newUser.setEmail(adminRegisterDto.getEmail());
+        newUser.setPassword(passwordEncoder.encode(adminRegisterDto.getPassword()));
         return userRepository.save(newUser);
     }
 

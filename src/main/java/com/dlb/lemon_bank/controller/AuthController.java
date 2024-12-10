@@ -2,7 +2,7 @@ package com.dlb.lemon_bank.controller;
 
 import com.dlb.lemon_bank.domain.dto.JwtRequestDto;
 import com.dlb.lemon_bank.domain.dto.JwtResponseDto;
-import com.dlb.lemon_bank.domain.dto.UserRequestDto;
+import com.dlb.lemon_bank.domain.dto.AdminRegisterDto;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import com.dlb.lemon_bank.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserEntity registerNewUser(@RequestBody UserRequestDto userRequestDto) {
-        return authService.registerNewUser(userRequestDto);
+    public UserEntity registerNewUser(@RequestBody AdminRegisterDto adminRegisterDto) {
+        return authService.registerNewUser(adminRegisterDto);
     }
 
 

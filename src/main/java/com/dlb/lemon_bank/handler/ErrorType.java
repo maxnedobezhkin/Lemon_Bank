@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorType {
     UNAUTHORIZED("Unauthorized", HttpStatus.UNAUTHORIZED),
-    USER_NOT_FOUND("User not found", HttpStatus.BAD_REQUEST);
+    USER_NOT_FOUND("User not found", HttpStatus.BAD_REQUEST),
+    USER_ALREADY_EXIST("User already exist", HttpStatus.BAD_REQUEST);
 
     public final String message;
     public final HttpStatus status;

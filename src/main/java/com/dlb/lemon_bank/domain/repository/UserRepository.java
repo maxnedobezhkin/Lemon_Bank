@@ -10,6 +10,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByEmail(String email);
+    List<UserEntity> findByFirstName(String firstName);
+    List<UserEntity> findByLastName(String lastName);
 
 
 }

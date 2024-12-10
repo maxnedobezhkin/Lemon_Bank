@@ -1,16 +1,10 @@
 package com.dlb.lemon_bank.domain.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserResponseDto {
+public class UserResponseDto extends UserBaseDto {
     private Integer id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Integer lemons;
-    private Integer diamonds;
-    private String userRole;
-    private String jobTitle;
-
 }
