@@ -18,3 +18,8 @@ ALTER TABLE users
 alter id add generated ALWAYS AS IDENTITY;
 --rollback ;
 
+--changeset Nedobezhkin.M.I.:add_is_active_column
+ALTER TABLE users
+add column is_active boolean default true;
+--rollback ;
+

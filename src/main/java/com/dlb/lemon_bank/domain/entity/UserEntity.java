@@ -35,5 +35,7 @@ public class UserEntity {
     private String userRole;
     @Column(name = "job_title")
     private String jobTitle;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
 }

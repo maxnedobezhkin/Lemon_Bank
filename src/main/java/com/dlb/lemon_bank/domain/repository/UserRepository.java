@@ -7,10 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-    Optional<UserEntity> findByEmailContaining(String email);
-    List<UserEntity> findByFirstName(String firstName);
-    List<UserEntity> findByLastName(String lastName);
-    List<UserEntity> findByFirstNameContainingOrLastNameContaining(String firstName, String lastName);
-
-
+    Optional<UserEntity> findByEmailContainingAndIsActiveIsTrue(String email);
+    List<UserEntity> findByFirstNameContainingOrLastNameContainingAndIsActiveIsTrue(String firstName, String lastName);
+    Optional<UserEntity> findByIdAndIsActiveIsTrue(Integer id);
 }

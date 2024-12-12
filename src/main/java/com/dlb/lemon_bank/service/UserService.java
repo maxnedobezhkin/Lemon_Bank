@@ -1,7 +1,9 @@
 package com.dlb.lemon_bank.service;
 
 import com.dlb.lemon_bank.domain.dto.UserBaseDto;
+import com.dlb.lemon_bank.domain.dto.UserCurrencyUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserResponseDto;
+import com.dlb.lemon_bank.domain.dto.UserStatusUpdateDto;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import com.dlb.lemon_bank.domain.mapper.UserMapper;
 import com.dlb.lemon_bank.domain.repository.UserRepository;
@@ -32,7 +34,7 @@ public class UserService {
 
     @Transactional
     public UserResponseDto getUserById(Integer id) {
-        Optional<UserEntity> user = userRepository.findById(id);
+        Optional<UserEntity> user = userRepository.findByIdAndIsActiveIsTrue(id);
         if (user.isEmpty()) {
             throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
@@ -42,7 +44,7 @@ public class UserService {
 
     @Transactional
     public UserResponseDto getUserByEmail(String email) {
-        Optional<UserEntity> user = userRepository.findByEmailContaining(email);
+        Optional<UserEntity> user = userRepository.findByEmailContainingAndIsActiveIsTrue(email);
         if (user.isEmpty()) {
             throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
@@ -54,13 +56,14 @@ public class UserService {
     public List<UserResponseDto> getUserByParameter(String searchParameter) {
         String trimParameter = StringUtils.trimToEmpty(searchParameter);
         if (isEnglishSymbols(trimParameter)) {
-            Optional<UserEntity> user = userRepository.findByEmailContaining(trimParameter);
+            Optional<UserEntity> user = userRepository.findByEmailContainingAndIsActiveIsTrue(trimParameter);
             if (user.isEmpty()) {
                 throw new LemonBankException(ErrorType.USER_NOT_FOUND);
             }
             return List.of(userMapper.toUserResponseDto(user.get()));
         }
-        List<UserEntity> usersByFirstOrLastName = userRepository.findByFirstNameContainingOrLastNameContaining(trimParameter, trimParameter);
+        List<UserEntity> usersByFirstOrLastName =
+            userRepository.findByFirstNameContainingOrLastNameContainingAndIsActiveIsTrue(trimParameter, trimParameter);
         if (usersByFirstOrLastName.isEmpty()) {
             throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
@@ -68,17 +71,43 @@ public class UserService {
 
     }
 
-    private boolean isEnglishSymbols(String value) {
-        return value.matches("^[a-zA-Z0-9.@]+$");
-    }
-
     public UserResponseDto postNewUser(UserBaseDto userBaseDto) {
-        Optional<UserEntity> existedUser = userRepository.findByEmailContaining(userBaseDto.getEmail());
+        Optional<UserEntity> existedUser = userRepository.findByEmailContainingAndIsActiveIsTrue(userBaseDto.getEmail());
         if (existedUser.isPresent()) {
             throw new LemonBankException(ErrorType.USER_ALREADY_EXIST);
         }
         UserEntity userEntity = userMapper.toUserEntity(userBaseDto);
         UserEntity saved = userRepository.save(userEntity);
+        return userMapper.toUserResponseDto(saved);
+    }
+
+    public UserResponseDto updateEmployeeCurrency(Integer id,
+        UserCurrencyUpdateDto currencyUpdateDtoDto) {
+        Optional<UserEntity> user = userRepository.findByIdAndIsActiveIsTrue(id);
+        if (user.isEmpty()) {
+            throw new LemonBankException(ErrorType.USER_NOT_FOUND);
+        }
+        UserEntity userEntity = user.get();
+        userEntity.setDiamonds(currencyUpdateDtoDto.getDiamonds());
+        userEntity.setLemons(currencyUpdateDtoDto.getLemons());
+        UserEntity saved = userRepository.save(userEntity);
+
+        return userMapper.toUserResponseDto(saved);
+    }
+
+    private boolean isEnglishSymbols(String value) {
+        return value.matches("^[a-zA-Z0-9.@]+$");
+    }
+
+    public UserResponseDto updateEmployeeStatus(Integer id, UserStatusUpdateDto statusUpdateDto) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new LemonBankException(ErrorType.USER_NOT_FOUND);
+        }
+        UserEntity userEntity = user.get();
+        userEntity.setIsActive(statusUpdateDto.getIsActive());
+        UserEntity saved = userRepository.save(userEntity);
+
         return userMapper.toUserResponseDto(saved);
     }
 }

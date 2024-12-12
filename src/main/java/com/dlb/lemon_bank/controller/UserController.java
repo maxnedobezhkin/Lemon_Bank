@@ -1,13 +1,16 @@
 package com.dlb.lemon_bank.controller;
 
 import com.dlb.lemon_bank.domain.dto.UserBaseDto;
+import com.dlb.lemon_bank.domain.dto.UserCurrencyUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserResponseDto;
+import com.dlb.lemon_bank.domain.dto.UserStatusUpdateDto;
 import com.dlb.lemon_bank.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +32,18 @@ public class UserController {
     @GetMapping("/employers/{id}")
     public UserResponseDto getEmployeeById(@PathVariable("id") Integer id) {
         return userService.getUserById(id);
+    }
+
+    @PutMapping ("/employers/currency/{id}")
+    public UserResponseDto updateEmployeeCurrencyById(@PathVariable("id") Integer id, @RequestBody
+        UserCurrencyUpdateDto currencyUpdateDtoDto) {
+        return userService.updateEmployeeCurrency(id, currencyUpdateDtoDto);
+    }
+
+    @PutMapping ("/employers/status/{id}")
+    public UserResponseDto updateEmployeeStatusById(@PathVariable("id") Integer id, @RequestBody
+    UserStatusUpdateDto currencyUpdateDtoDto) {
+        return userService.updateEmployeeStatus(id, currencyUpdateDtoDto);
     }
 
     @GetMapping("/employers/find-by-email-open/{email}")
