@@ -42,7 +42,7 @@ public class UserService {
 
     @Transactional
     public UserResponseDto getUserByEmail(String email) {
-        Optional<UserEntity> user = userRepository.findByEmail(email);
+        Optional<UserEntity> user = userRepository.findByEmailContaining(email);
         if (user.isEmpty()) {
             throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
@@ -53,32 +53,27 @@ public class UserService {
     @Transactional
     public List<UserResponseDto> getUserByParameter(String searchParameter) {
         String trimParameter = StringUtils.trimToEmpty(searchParameter);
-        if (isEmail(trimParameter)) {
-            Optional<UserEntity> user = userRepository.findByEmail(trimParameter);
+        if (isEnglishSymbols(trimParameter)) {
+            Optional<UserEntity> user = userRepository.findByEmailContaining(trimParameter);
             if (user.isEmpty()) {
                 throw new LemonBankException(ErrorType.USER_NOT_FOUND);
             }
             return List.of(userMapper.toUserResponseDto(user.get()));
         }
-        List<UserEntity> userByFirstName = userRepository.findByFirstName(trimParameter);
-        List<UserEntity> userByLastName = userRepository.findByLastName(trimParameter);
-        if (userByFirstName.isEmpty() && userByLastName.isEmpty()) {
+        List<UserEntity> usersByFirstOrLastName = userRepository.findByFirstNameContainingOrLastNameContaining(trimParameter, trimParameter);
+        if (usersByFirstOrLastName.isEmpty()) {
             throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
-
-        if (!userByFirstName.isEmpty()) {
-            return userMapper.toListUserResponseDto(userByFirstName);
-        }
-        return userMapper.toListUserResponseDto(userByLastName);
+        return userMapper.toListUserResponseDto(usersByFirstOrLastName);
 
     }
 
-    private boolean isEmail(String value) {
-        return value.matches("^[\\w-\\.]+@[\\w-]+(\\.[\\w-]+)*\\.[a-z]{2,}$");
+    private boolean isEnglishSymbols(String value) {
+        return value.matches("^[a-zA-Z0-9.@]+$");
     }
 
     public UserResponseDto postNewUser(UserBaseDto userBaseDto) {
-        Optional<UserEntity> existedUser = userRepository.findByEmail(userBaseDto.getEmail());
+        Optional<UserEntity> existedUser = userRepository.findByEmailContaining(userBaseDto.getEmail());
         if (existedUser.isPresent()) {
             throw new LemonBankException(ErrorType.USER_ALREADY_EXIST);
         }
