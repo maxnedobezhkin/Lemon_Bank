@@ -1,8 +1,10 @@
 package com.dlb.lemon_bank.controller;
 
 import com.dlb.lemon_bank.domain.dto.UserBaseDto;
+import com.dlb.lemon_bank.domain.dto.UserCurrencyMultipleUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserCurrencyUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserResponseDto;
+import com.dlb.lemon_bank.domain.dto.UserStatusMultipleUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserStatusUpdateDto;
 import com.dlb.lemon_bank.service.UserService;
 import java.util.List;
@@ -59,6 +61,16 @@ public class UserController {
     @PostMapping("/employers")
     public UserResponseDto postNewUser(@RequestBody UserBaseDto userBaseDto) {
         return userService.postNewUser(userBaseDto);
+    }
+
+    @PutMapping("/employers/multiple-currency")
+    public List<Integer> updateCurrencyForMultipleUsers(@RequestBody UserCurrencyMultipleUpdateDto updateDto) {
+        return userService.updateCurrencyForMultipleUsers(updateDto);
+    }
+
+    @PutMapping("/employers/multiple-status")
+    public List<Integer> updateStatusForMultipleUsers(@RequestBody UserStatusMultipleUpdateDto updateDto) {
+        return userService.updateStatusForMultipleUsers(updateDto);
     }
 
 }

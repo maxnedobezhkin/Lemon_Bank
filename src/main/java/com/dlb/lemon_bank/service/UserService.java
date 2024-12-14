@@ -1,8 +1,10 @@
 package com.dlb.lemon_bank.service;
 
 import com.dlb.lemon_bank.domain.dto.UserBaseDto;
+import com.dlb.lemon_bank.domain.dto.UserCurrencyMultipleUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserCurrencyUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserResponseDto;
+import com.dlb.lemon_bank.domain.dto.UserStatusMultipleUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserStatusUpdateDto;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import com.dlb.lemon_bank.domain.mapper.UserMapper;
@@ -109,5 +111,27 @@ public class UserService {
         UserEntity saved = userRepository.save(userEntity);
 
         return userMapper.toUserResponseDto(saved);
+    }
+
+    @Transactional
+    public List<Integer> updateCurrencyForMultipleUsers(UserCurrencyMultipleUpdateDto updateDto) {
+        List<Integer> userIds = updateDto.getUserIds();
+        Integer count = updateDto.getCount();
+        if (updateDto.getCurrency().equals("lemons")) {
+            userRepository.updateLemonsForIds(count, userIds);
+        } else if (updateDto.getCurrency().equals("diamonds")) {
+            userRepository.updateDiamondsForIds(count, userIds);
+        } else {
+            throw new LemonBankException(ErrorType.NOT_CORRECT_CURRENCY);
+        }
+        return userIds;
+    }
+
+    @Transactional
+    public List<Integer> updateStatusForMultipleUsers(UserStatusMultipleUpdateDto updateDto) {
+        List<Integer> userIds = updateDto.getUserIds();
+        boolean isActive = updateDto.getIsActive();
+        userRepository.updateIsActiveForIds(isActive, userIds);
+        return userIds;
     }
 }
