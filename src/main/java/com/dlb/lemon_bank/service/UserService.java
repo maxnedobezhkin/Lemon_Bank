@@ -1,5 +1,6 @@
 package com.dlb.lemon_bank.service;
 
+import com.dlb.lemon_bank.domain.dto.StatResponseDto;
 import com.dlb.lemon_bank.domain.dto.UserBaseDto;
 import com.dlb.lemon_bank.domain.dto.UserCurrencyMultipleUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserCurrencyUpdateDto;
@@ -133,5 +134,17 @@ public class UserService {
         boolean isActive = updateDto.getIsActive();
         userRepository.updateIsActiveForIds(isActive, userIds);
         return userIds;
+    }
+
+    @Transactional
+    public StatResponseDto getAllStatistic() {
+        Integer users = userRepository.countAllActiveUsers();
+        Integer diamonds = userRepository.countAllDiamonds();
+        Integer lemons = userRepository.countAllLemons();
+        return StatResponseDto.builder()
+            .users(users)
+            .diamonds(diamonds)
+            .lemons(lemons)
+            .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.dlb.lemon_bank.controller;
 
+import com.dlb.lemon_bank.domain.dto.StatResponseDto;
 import com.dlb.lemon_bank.domain.dto.UserBaseDto;
 import com.dlb.lemon_bank.domain.dto.UserCurrencyMultipleUpdateDto;
 import com.dlb.lemon_bank.domain.dto.UserCurrencyUpdateDto;
@@ -71,6 +72,11 @@ public class UserController {
     @PutMapping("/employers/multiple-status")
     public List<Integer> updateStatusForMultipleUsers(@RequestBody UserStatusMultipleUpdateDto updateDto) {
         return userService.updateStatusForMultipleUsers(updateDto);
+    }
+
+    @GetMapping("/employers/get-all-stat")
+    public StatResponseDto getAllStatistic() {
+        return userService.getAllStatistic();
     }
 
 }

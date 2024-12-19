@@ -21,4 +21,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Modifying
     @Query("update UserEntity u set u.isActive = ?1 where u.id in ?2")
     void updateIsActiveForIds(boolean isActive, List<Integer> userIds);
+    @Query("select COUNT(u) from UserEntity u where u.isActive = true ")
+    Integer countAllActiveUsers();
+    @Query("select SUM (u.diamonds) from UserEntity u where u.isActive = true ")
+    Integer countAllDiamonds();
+    @Query("select SUM (u.lemons) from UserEntity u where u.isActive = true ")
+    Integer countAllLemons();
 }
