@@ -32,14 +32,13 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(AbstractHttpConfigurer::disable)
-
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/login").anonymous()
                 .requestMatchers("/api/v1/employers/open-by-email/*").permitAll()
                 .anyRequest().hasAuthority("ADMIN"))
             .exceptionHandling(exc -> exc
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.INTERNAL_SERVER_ERROR)))
 //            .formLogin(form ->
 //                form
 ////                    .loginPage("/login")

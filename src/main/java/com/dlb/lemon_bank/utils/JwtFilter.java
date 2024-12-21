@@ -1,5 +1,7 @@
 package com.dlb.lemon_bank.utils;
 
+import com.dlb.lemon_bank.handler.ErrorType;
+import com.dlb.lemon_bank.handler.exception.LemonBankException;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -67,6 +70,8 @@ public class JwtFilter extends OncePerRequestFilter {
     //TODO Исправить эту хуйню
     private void getErrorMessage(HttpServletResponse response)
         throws IOException {
+        log.info("Invalid token");
+//        response.sendError(HttpStatus.UNAUTHORIZED.value());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -74,7 +79,8 @@ public class JwtFilter extends OncePerRequestFilter {
             Jackson2ObjectMapperBuilder.json()
                 .modules(new JavaTimeModule())
                 .build()
-                .writeValueAsString("UNAUTHORIZED")
+                .writeValueAsString("Invalid token")
         );
+//        throw new LemonBankException(ErrorType.UNAUTHORIZED);
     }
 }
