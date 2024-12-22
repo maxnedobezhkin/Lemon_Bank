@@ -3,6 +3,8 @@ package com.dlb.lemon_bank.domain.repository;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByEmailContainingAndIsActiveIsTrue(String email);
+    Page<UserEntity> findAllAndIsActiveIsTrue(PageRequest pageRequest);
     List<UserEntity> findByFirstNameContainingOrLastNameContainingAndIsActiveIsTrue(String firstName, String lastName);
     Optional<UserEntity> findByIdAndIsActiveIsTrue(Integer id);
     @Modifying

@@ -31,7 +31,7 @@ public class UserService {
 
     @Transactional
     public List<UserResponseDto> getAllUsers(Integer offset, Integer limit) {
-        Page<UserEntity> users = userRepository.findAll(PageRequest.of(offset, limit));
+        Page<UserEntity> users = userRepository.findAllAndIsActiveIsTrue(PageRequest.of(offset, limit));
         return userMapper.toListUserResponseDto(users);
     }
 
