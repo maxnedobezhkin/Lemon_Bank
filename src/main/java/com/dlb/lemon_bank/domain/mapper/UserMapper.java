@@ -6,6 +6,7 @@ import com.dlb.lemon_bank.domain.dto.UserResponseDto;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 
@@ -15,6 +16,7 @@ public interface UserMapper {
     UserResponseDto toUserResponseDto(UserEntity entity);
     List<UserResponseDto> toListUserResponseDto(Page<UserEntity> entities);
     List<UserResponseDto> toListUserResponseDto(List<UserEntity> entities);
+    @Mapping(target = "isActive", source = "userBaseDto.isActive", defaultValue = "true")
     UserEntity toUserEntity(UserBaseDto userBaseDto);
 
 }
