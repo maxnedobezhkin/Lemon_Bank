@@ -6,7 +6,7 @@ services:
     build:
       context: .
     ports:
-      - '300:8080'
+      - '8080:8080'
     networks:
       - my_network
   lemon_db_postgres:
@@ -30,4 +30,4 @@ volumes:
   db_data:
 networks:
   my_network:
-    driver: bridge
+    external: true
