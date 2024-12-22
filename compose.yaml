@@ -6,7 +6,7 @@ services:
     build:
       context: .
     ports:
-      - '80:8080'
+      - '300:8080'
     networks:
       - my_network
   lemon_db_postgres:
