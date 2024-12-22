@@ -4,7 +4,7 @@ import com.dlb.lemon_bank.domain.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +12,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByEmailContainingAndIsActiveIsTrue(String email);
-    Page<UserEntity> findAllAndIsActiveIsTrue(PageRequest pageRequest);
+    @Query(value = "select u from UserEntity u where u.isActive = true",
+    countQuery = "select count(u) from UserEntity u where u.isActive = true")
+    Page<UserEntity> findAllAndIsActiveIsTrue(Pageable pageRequest);
     List<UserEntity> findByFirstNameContainingOrLastNameContainingAndIsActiveIsTrue(String firstName, String lastName);
     Optional<UserEntity> findByIdAndIsActiveIsTrue(Integer id);
     @Modifying
