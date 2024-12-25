@@ -15,6 +15,7 @@ import com.dlb.lemon_bank.handler.exception.LemonBankException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 // TODO Сделать общий метод с помощью ссылки на метод (Functional<T>)
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
 
@@ -57,14 +59,18 @@ public class UserService {
 
     @Transactional
     public List<UserResponseDto> getUserByParameter(String searchParameter) {
+        log.info("Start find by param:{}", searchParameter);
         String trimParameter = StringUtils.trimToEmpty(searchParameter);
+        log.info("Check is English Symbols");
         if (isEnglishSymbols(trimParameter)) {
+            log.info("Find by email");
             Optional<UserEntity> user = userRepository.findByEmailContainingAndIsActiveIsTrue(trimParameter);
             if (user.isEmpty()) {
                 throw new LemonBankException(ErrorType.USER_NOT_FOUND);
             }
             return List.of(userMapper.toUserResponseDto(user.get()));
         }
+        log.info("Find by Name");
         List<UserEntity> usersByFirstOrLastName =
             userRepository.findByFirstNameContainingOrLastNameContainingAndIsActiveIsTrue(trimParameter, trimParameter);
         if (usersByFirstOrLastName.isEmpty()) {

@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query(value = "select u from UserEntity u where u.isActive = true",
     countQuery = "select count(u) from UserEntity u where u.isActive = true")
     Page<UserEntity> findAllAndIsActiveIsTrue(Pageable pageRequest);
+    @Query(value = "select u from UserEntity u where (u.firstName like %:firstName or u.lastName like %:lastName) and u.isActive = true")
     List<UserEntity> findByFirstNameContainingOrLastNameContainingAndIsActiveIsTrue(String firstName, String lastName);
     Optional<UserEntity> findByIdAndIsActiveIsTrue(Integer id);
     @Modifying
