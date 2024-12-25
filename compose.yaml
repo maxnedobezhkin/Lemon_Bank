@@ -9,6 +9,7 @@ services:
       - '8080:8080'
     networks:
       - my_network
+    container_name: lemon_bank-lemon_bank_app
   lemon_db_postgres:
     restart: on-failure
     image: postgres

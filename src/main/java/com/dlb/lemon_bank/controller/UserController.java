@@ -10,6 +10,7 @@ import com.dlb.lemon_bank.domain.dto.UserStatusUpdateDto;
 import com.dlb.lemon_bank.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "https://bankoflemons.ru")
 @RequiredArgsConstructor
 public class UserController {
 
