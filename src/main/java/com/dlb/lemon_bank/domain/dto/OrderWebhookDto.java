@@ -1,15 +1,14 @@
 package com.dlb.lemon_bank.domain.dto;
 
+import jakarta.persistence.Column;
+import java.util.List;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-public class OrderResponseDto {
-    private Integer id;
+public class OrderWebhookDto {
     private String date;
     private String items;
-    private String tildaId;
+    private String id;
     private String total;
     private String email;
-    private String status;
 }

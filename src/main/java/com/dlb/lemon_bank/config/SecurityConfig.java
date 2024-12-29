@@ -36,6 +36,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/login").anonymous()
                 .requestMatchers("/api/v1/employers/find-by-email-open/*").permitAll()
+                .requestMatchers("/api/v1/orders/create").permitAll()
                 .anyRequest().hasAuthority("ADMIN"))
             .exceptionHandling(exc -> exc
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.INTERNAL_SERVER_ERROR)))

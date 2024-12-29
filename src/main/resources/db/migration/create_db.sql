@@ -23,3 +23,20 @@ create table if not exists orders
     status varchar(10)
     );
 --rollback drop table orders;
+
+--changeset Nedobezhkin.M.I.:drop_orders_table
+drop table if exists orders;
+--rollback ;
+
+--changeset Nedobezhkin.M.I.:create_new_orders_table
+create table if not exists orders
+(
+    id int primary key generated ALWAYS AS IDENTITY,
+    employee_id int references users(id),
+    date_order varchar,
+    total int,
+    items varchar,
+    status varchar(10),
+    tilda_id varchar
+    );
+--rollback drop table orders;
