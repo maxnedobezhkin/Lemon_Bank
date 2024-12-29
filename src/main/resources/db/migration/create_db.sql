@@ -40,3 +40,18 @@ create table if not exists orders
     tilda_id varchar
     );
 --rollback drop table orders;
+
+--changeset Nedobezhkin.M.I.:create_new_history_table
+create table if not exists history
+(
+    id int primary key generated ALWAYS AS IDENTITY,
+    user_id int references users(id),
+    admin_id int references users(id),
+    date_ timestamp,
+    type_ varchar,
+    comment varchar,
+    order_id int references orders(id),
+    currency varchar,
+    value_ int
+    );
+--rollback drop table history;

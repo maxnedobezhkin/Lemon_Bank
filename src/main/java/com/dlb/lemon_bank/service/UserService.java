@@ -30,6 +30,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final HistoryService historyService;
 
     @Transactional
     public List<UserResponseDto> getAllUsers(Integer offset, Integer limit) {
@@ -97,9 +98,17 @@ public class UserService {
             throw new LemonBankException(ErrorType.USER_NOT_FOUND);
         }
         UserEntity userEntity = user.get();
+        Integer currentLemons = userEntity.getLemons();
+        Integer currentDiamonds = userEntity.getDiamonds();
+        Integer differenceLemons = currencyUpdateDtoDto.getLemons() - currentLemons;
+        Integer differenceDiamonds = currencyUpdateDtoDto.getDiamonds() - currentDiamonds;
+
         userEntity.setDiamonds(currencyUpdateDtoDto.getDiamonds());
         userEntity.setLemons(currencyUpdateDtoDto.getLemons());
         UserEntity saved = userRepository.save(userEntity);
+
+        historyService.changeCurrency(saved, differenceLemons, differenceDiamonds);
+
 
         return userMapper.toUserResponseDto(saved);
     }
