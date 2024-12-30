@@ -95,6 +95,7 @@ public class HistoryService {
     }
 
 
+    @Transactional
     public List<HistoryResponseDto> getHistoryByDateAndParam(String dateFromString, String dateToString,
         String searchParameter) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -115,6 +116,7 @@ public class HistoryService {
         return value.matches("^[a-zA-Z0-9.@]+$");
     }
 
+    @Transactional
     public List<HistoryResponseDto> getHistoryById(Integer id) {
         List<HistoryEntity> historyEntities = historyRepository.findAllByUserId(id);
         return historyMapper.toHistoryResponseDtoList(historyEntities);

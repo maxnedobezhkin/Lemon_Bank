@@ -81,6 +81,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public UserResponseDto postNewUser(UserBaseDto userBaseDto) {
         Optional<UserEntity> existedUser = userRepository.findByEmailContainingAndIsActiveIsTrue(userBaseDto.getEmail());
         if (existedUser.isPresent()) {
@@ -91,6 +92,7 @@ public class UserService {
         return userMapper.toUserResponseDto(saved);
     }
 
+    @Transactional
     public UserResponseDto updateEmployeeCurrency(Integer id,
         UserCurrencyUpdateDto currencyUpdateDtoDto) {
         Optional<UserEntity> user = userRepository.findByIdAndIsActiveIsTrue(id);
@@ -117,6 +119,7 @@ public class UserService {
         return value.matches("^[a-zA-Z0-9.@]+$");
     }
 
+    @Transactional
     public UserResponseDto updateEmployeeStatus(Integer id, UserStatusUpdateDto statusUpdateDto) {
         Optional<UserEntity> user = userRepository.findById(id);
         if (user.isEmpty()) {

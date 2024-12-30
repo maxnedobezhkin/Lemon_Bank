@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrdersService {
     private final OrderMapper orderMapper;
     private final OrdersRepository ordersRepository;
-    private final UserRepository userRepository;
     private final HistoryService historyService;
 
     @Transactional

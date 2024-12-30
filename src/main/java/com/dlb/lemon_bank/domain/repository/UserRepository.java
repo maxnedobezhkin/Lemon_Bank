@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByEmailContainingAndIsActiveIsTrue(String email);
-    @Query(value = "select u from UserEntity u where u.isActive = true",
+    @Query(value = "select u from UserEntity u where u.isActive = true order by u.lastName asc",
     countQuery = "select count(u) from UserEntity u where u.isActive = true")
     Page<UserEntity> findAllAndIsActiveIsTrue(Pageable pageRequest);
 //    @Query(value = "select u from UserEntity u where (u.firstName like %:firstName or u.lastName like %:lastName) and u.isActive = true")
