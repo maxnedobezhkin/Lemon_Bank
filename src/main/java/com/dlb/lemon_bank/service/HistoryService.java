@@ -1,14 +1,18 @@
 package com.dlb.lemon_bank.service;
 
+import com.dlb.lemon_bank.domain.dto.HistoryResponseDto;
+import com.dlb.lemon_bank.domain.dto.OrderResponseDto;
 import com.dlb.lemon_bank.domain.entity.HistoryEntity;
 import com.dlb.lemon_bank.domain.entity.OrdersEntity;
 import com.dlb.lemon_bank.domain.entity.UserEntity;
+import com.dlb.lemon_bank.domain.mapper.HistoryMapper;
 import com.dlb.lemon_bank.domain.repository.HistoryRepository;
 import com.dlb.lemon_bank.domain.repository.UserRepository;
 import com.dlb.lemon_bank.handler.ErrorType;
 import com.dlb.lemon_bank.handler.exception.LemonBankException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class HistoryService {
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
+    private final HistoryMapper historyMapper;
 
     @Transactional
     public void addOrderInHistory(OrdersEntity orders) {
@@ -90,4 +95,28 @@ public class HistoryService {
     }
 
 
+    public List<HistoryResponseDto> getHistoryByDateAndParam(String dateFromString, String dateToString,
+        String searchParameter) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateFrom = LocalDate.parse(dateFromString, formatter);
+        LocalDate dateTo = LocalDate.parse(dateToString, formatter);
+        if (isEnglishSymbols(searchParameter)) {
+            List<HistoryEntity> historyEntities = historyRepository.findAllByDateBetweenAndUserEmailContaining(
+                dateFrom, dateTo, searchParameter);
+            return historyMapper.toHistoryResponseDtoList(historyEntities);
+        } else {
+            List<HistoryEntity> historyEntities = historyRepository.findAllByDateBetweenAndUserFirstNameContainingOrUserLastNameContaining(
+                dateFrom, dateTo, searchParameter, searchParameter);
+            return historyMapper.toHistoryResponseDtoList(historyEntities);
+        }
+    }
+
+    private boolean isEnglishSymbols(String value) {
+        return value.matches("^[a-zA-Z0-9.@]+$");
+    }
+
+    public List<HistoryResponseDto> getHistoryById(Integer id) {
+        List<HistoryEntity> historyEntities = historyRepository.findAllByUserId(id);
+        return historyMapper.toHistoryResponseDtoList(historyEntities);
+    }
 }
