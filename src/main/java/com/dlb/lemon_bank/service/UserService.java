@@ -136,10 +136,26 @@ public class UserService {
     public List<Integer> updateCurrencyForMultipleUsers(UserCurrencyMultipleUpdateDto updateDto) {
         List<Integer> userIds = updateDto.getUserIds();
         Integer count = updateDto.getCount();
+        List<UserEntity> users = userRepository.findAllByIdInAndIsActiveIsTrue(userIds);
         if (updateDto.getCurrency().equals("lemons")) {
-            userRepository.updateLemonsForIds(count, userIds);
+            users
+                .forEach(user -> {
+                    Integer currentLemons = user.getLemons();
+                    user.setLemons(currentLemons + count);
+                    UserEntity saved = userRepository.save(user);
+                    historyService.changeCurrency(saved, count, 0);
+                });
+
+//            userRepository.updateLemonsForIds(count, userIds);
         } else if (updateDto.getCurrency().equals("diamonds")) {
-            userRepository.updateDiamondsForIds(count, userIds);
+            users
+                .forEach(user -> {
+                    Integer currentDiamonds = user.getDiamonds();
+                    user.setDiamonds(currentDiamonds + count);
+                    UserEntity saved = userRepository.save(user);
+                    historyService.changeCurrency(saved, 0, count);
+                });
+//            userRepository.updateDiamondsForIds(count, userIds);
         } else {
             throw new LemonBankException(ErrorType.NOT_CORRECT_CURRENCY);
         }
