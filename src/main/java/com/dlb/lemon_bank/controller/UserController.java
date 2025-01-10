@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "https://bankoflemons.ru")
+@CrossOrigin(origins = {"https://bankoflemons.ru", "https://store.zarplata.ru"})
 @RequiredArgsConstructor
 public class UserController {
 
