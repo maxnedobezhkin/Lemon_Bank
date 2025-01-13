@@ -8,4 +8,5 @@ public class UserCurrencyMultipleUpdateDto {
     private List<Integer> userIds;
     private Integer count;
     private String currency;
+    private String comment;
 }
