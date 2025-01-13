@@ -105,11 +105,13 @@ public class UserService {
         Integer differenceLemons = currencyUpdateDtoDto.getLemons() - currentLemons;
         Integer differenceDiamonds = currencyUpdateDtoDto.getDiamonds() - currentDiamonds;
 
+
         userEntity.setDiamonds(currencyUpdateDtoDto.getDiamonds());
         userEntity.setLemons(currencyUpdateDtoDto.getLemons());
         UserEntity saved = userRepository.save(userEntity);
 
-        historyService.changeCurrency(saved, differenceLemons, differenceDiamonds);
+        historyService.changeCurrency(saved, differenceLemons, differenceDiamonds,
+            currencyUpdateDtoDto.getComment());
 
 
         return userMapper.toUserResponseDto(saved);
@@ -143,19 +145,17 @@ public class UserService {
                     Integer currentLemons = user.getLemons();
                     user.setLemons(currentLemons + count);
                     UserEntity saved = userRepository.save(user);
-                    historyService.changeCurrency(saved, count, 0);
+                    historyService.changeCurrency(saved, count, 0, updateDto.getComment());
                 });
 
-//            userRepository.updateLemonsForIds(count, userIds);
         } else if (updateDto.getCurrency().equals("diamonds")) {
             users
                 .forEach(user -> {
                     Integer currentDiamonds = user.getDiamonds();
                     user.setDiamonds(currentDiamonds + count);
                     UserEntity saved = userRepository.save(user);
-                    historyService.changeCurrency(saved, 0, count);
+                    historyService.changeCurrency(saved, 0, count, updateDto.getComment());
                 });
-//            userRepository.updateDiamondsForIds(count, userIds);
         } else {
             throw new LemonBankException(ErrorType.NOT_CORRECT_CURRENCY);
         }

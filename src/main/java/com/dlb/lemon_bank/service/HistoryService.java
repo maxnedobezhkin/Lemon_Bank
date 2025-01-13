@@ -56,7 +56,7 @@ public class HistoryService {
     }
 
     @Transactional
-    public void changeCurrency(UserEntity user, Integer differenceLemons, Integer differenceDiamonds) {
+    public void changeCurrency(UserEntity user, Integer differenceLemons, Integer differenceDiamonds, String comment) {
         Integer adminId = Integer.parseInt((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         log.debug("Admin id:{}", adminId);
         Optional<UserEntity> admin = userRepository.findByIdAndIsActiveIsTrue(
@@ -70,7 +70,7 @@ public class HistoryService {
                 .user(user)
                 .date(LocalDate.now())
                 .type("reward")
-                .comment("Изменение лимонов")
+                .comment(comment)
                 .order(null)
                 .currency("lemons")
                 .value(differenceLemons)
@@ -84,7 +84,7 @@ public class HistoryService {
                 .user(user)
                 .date(LocalDate.now())
                 .type("reward")
-                .comment("Изменение алмазов")
+                .comment(comment)
                 .order(null)
                 .currency("diamonds")
                 .value(differenceDiamonds)

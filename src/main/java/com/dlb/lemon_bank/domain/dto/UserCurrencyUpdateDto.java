@@ -6,4 +6,5 @@ import lombok.Data;
 public class UserCurrencyUpdateDto {
     private Integer lemons;
     private Integer diamonds;
+    private String comment;
 }
